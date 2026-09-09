@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from checkins.forms import MoodEntryForm
 from .models import MoodEntry
 from django.db.models import Avg
-
+from django.contrib.auth.decorators import login_required
 
 
 def home(requests):
@@ -15,8 +15,14 @@ def get_form(requests):
     if requests.method == 'POST':
         my_form = MoodEntryForm(requests.POST)
         
+        # Second challenge: datas will be orphaned and report of each user is empty.
+        # If somebody change the logic, then everyone will access to data easily
+        # We call it quit bug, which means you think program is working porperly but it isn't.
+        
         if my_form.is_valid():
-            saved_mood = my_form.save()
+            saved_mood = my_form.save(commit=False)
+            saved_mood.user = requests.user
+            saved_mood.save()
             return render(requests, 'checkins/success.html', {'mood' : saved_mood})
         
     else:
@@ -27,15 +33,20 @@ def get_form(requests):
         "checkins/entry_form.html",
         {"django_form": my_form}
     )
-    
+  
+@login_required  
 def report(requests):
+    
+    print(requests.user , requests.user.is_staff)
     # Query parametrs is like when the urls get ? and showing the date in url. e.g : report/?date=2026-08-26
     # If we want to filter the whole form, we should use GET method. because you're jusr submitting and the result should be shown is URL : GET method. 
-    entry = MoodEntry.objects.all()
+   
     selected_date = requests.GET.get('date')
     low_only = requests.GET.get('low')
     low_energy = requests.GET.get('low_energy')
-    
+    entry = MoodEntry.objects.filter(user = requests.user)  # This line is important. The reason is each user see It's own report.
+    # If you delete upperline than each user will see everyone's report in pulsecheck.
+    # It is also importsnt for privation of datas. Not anyone can get all member datas.
     if selected_date :
         entry = entry.filter(created_at__date = selected_date)
         

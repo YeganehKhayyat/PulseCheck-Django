@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class MoodEntry(models.Model):
     
@@ -11,3 +11,4 @@ class MoodEntry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # tag = models.CharField()
     energy_level = models.IntegerField()
+    user = models.ForeignKey(User , on_delete=models.CASCADE)

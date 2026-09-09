@@ -29,7 +29,6 @@
     {% for entry in entries %}
       <article class="card">
         <strong>حال: {{ entry.score }}/5</strong>
-        <span>برچسب: {{ entry.tag }}</span>
         <p>{{ entry.reason|default:"بدون توضیح" }}</p>
         <small>{{ entry.created_at|date:"Y-m-d H:i" }}</small>
       </article>
