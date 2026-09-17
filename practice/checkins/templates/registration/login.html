@@ -1,6 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content%}
 <h1>Login</h1>
 
-<form method="post">
+<form method="post" dir="ltr">
     {% csrf_token%}
 
     {{form.as_p}}
@@ -9,3 +12,5 @@
         Login
     </button>
 </form>
+
+{% endblock%}

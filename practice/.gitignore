@@ -24,10 +24,6 @@ media/
 1.jpg
 *.cpython
 
-# Source - https://stackoverflow.com/a/76131217
-# Posted by Madhav Dhungana, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-09-01, License - CC BY-SA 4.0
-
 venv/
     .env
     __pycache__

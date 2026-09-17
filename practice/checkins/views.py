@@ -10,7 +10,12 @@ def home(requests):
     # return HttpResponse("Welcome to my website")
     return render(requests, "checkins/home.html")
 
+def about(requests):
+    return render(requests, "checkins/about.html")
+
+@login_required(login_url= "/login")
 def get_form(requests):
+    
     
     if requests.method == 'POST':
         my_form = MoodEntryForm(requests.POST)
@@ -34,10 +39,9 @@ def get_form(requests):
         {"django_form": my_form}
     )
   
-@login_required  
+@login_required(login_url= "/login")  
 def report(requests):
     
-    print(requests.user , requests.user.is_staff)
     # Query parametrs is like when the urls get ? and showing the date in url. e.g : report/?date=2026-08-26
     # If we want to filter the whole form, we should use GET method. because you're jusr submitting and the result should be shown is URL : GET method. 
    
